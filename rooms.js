@@ -235,7 +235,7 @@ function pot(g,r,h,col,style){const m=style==='terra'?M.ceramic(col):std({color:
   const pts=style==='terra'?[[0,0],[r*.7,0],[r*.72,.01],[r*.92,h*.82],[r*1.06,h*.84],[r*1.06,h],[r*.96,h],[r*.95,h*.92]]:[[0,0],[r*.8,0],[r*.84,.015],[r*.98,h*.5],[r,h*.97],[r*.97,h],[r*.92,h],[r*.92,h*.92]];
   lathe(pts,m,0,0,0,g,32);cy(r*.93,r*.93,.01,M.plain('#3a2a1d'),0,h*.9,0,g,24);
   if(style==='terra')cy(r*.95,r*.85,.03,M.ceramic(col),0,.015,0,g,24);}
-function plant(type,x,z,s,potCol,parent=scene,y=0){const g=grp(x,z,rnd()*6,parent,y);g.scale.setScalar(s);
+function plant(type,x,z,s,potCol,parent=scene,y=0){const g=grp(x,z,rnd()*6,parent,y);g.scale.setScalar(s);g.userData.potR=({fiddle:.2,snake:.15,monstera:.24,palm:.21,pothos:.09,succ:.07}[type]||.2)*s*1.05;
   if(type==='fiddle'){pot(g,.2,.36,potCol,'terra');
     const tp=[[0,.3,0],[.03,.7,.02],[-.02,1.05,-.01],[.01,1.38,.02]];tube(tp,.018,trunkMat,g);
     const cur=new THREE.CatmullRomCurve3(tp.map(a=>new V3(...a)));
@@ -264,7 +264,7 @@ function potPlant(g,x,y,z,s,col,type){return plant(type,x,z,s/.07*.5,col,g,y);}
 
 
 function arcLamp(px,pz,ry=0){
-  const g=grp(px,pz,ry),mm=M.metal('#2a2d31');
+  const g=grp(px,pz,ry),mm=M.metal('#2a2d31');g.userData.potR=.19;
   cy(.17,.19,.04,std({color:'#e8e6e2',map:TX.ceramic,roughness:.2}),0,.02,0,g,40);
   tube([[0,.04,0],[0,1.2,0],[-.25,1.95,.15],[-1.0,2.08,.55],[-1.68,1.82,.9]],.014,mm,g,60);
   const sh=lathe([[.02,.17],[.08,.16],[.15,.1],[.2,0]],std({color:'#2a2d31',roughness:.4,metalness:.5,side:THREE.DoubleSide}),-1.7,1.62,.92,g,32);
@@ -674,7 +674,7 @@ function pot(g,r,h,col,style){const m=style==='terra'?M.ceramic(col):std({color:
   const pts=style==='terra'?[[0,0],[r*.7,0],[r*.72,.01],[r*.92,h*.82],[r*1.06,h*.84],[r*1.06,h],[r*.96,h],[r*.95,h*.92]]:[[0,0],[r*.8,0],[r*.84,.015],[r*.98,h*.5],[r,h*.97],[r*.97,h],[r*.92,h],[r*.92,h*.92]];
   lathe(pts,m,0,0,0,g,32);cy(r*.93,r*.93,.01,M.plain('#3a2a1d'),0,h*.9,0,g,24);
   if(style==='terra')cy(r*.95,r*.85,.03,M.ceramic(col),0,.015,0,g,24);}
-function plant(type,x,z,s,potCol,parent=scene,y=0){const g=grp(x,z,rnd()*6,parent,y);g.scale.setScalar(s);
+function plant(type,x,z,s,potCol,parent=scene,y=0){const g=grp(x,z,rnd()*6,parent,y);g.scale.setScalar(s);g.userData.potR=({fiddle:.2,snake:.15,monstera:.24,palm:.21,pothos:.09,succ:.07}[type]||.2)*s*1.05;
   if(type==='fiddle'){pot(g,.2,.36,potCol,'terra');
     const tp=[[0,.3,0],[.03,.7,.02],[-.02,1.05,-.01],[.01,1.38,.02]];tube(tp,.018,trunkMat,g);
     const cur=new THREE.CatmullRomCurve3(tp.map(a=>new V3(...a)));

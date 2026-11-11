@@ -1,6 +1,6 @@
 # Room Design Walkthroughs
 
-A website for walking through room designs in 3D: the student common room (Designs 1–3) and the music practice studio.
+A website for walking through room designs in 3D: the student common room and the music practice studio.
 
 - **Walk** at eye height, sit on chairs, sofas and stools, switch lamps, the TV, ceiling lights and doors, and play the instruments.
 - **Overview** and **Plan** show zone labels and room dimensions.
