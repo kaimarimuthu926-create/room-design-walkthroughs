@@ -440,7 +440,7 @@ async function loadGithub(){const br=CFG.branch||'main';const enc=p=>p.split('/'
   try{const c=sessionStorage.getItem('rw-tree');if(c){const o=JSON.parse(c);if(Date.now()-o.t<180000)paths=o.p;}}catch(e){}
   if(!paths){try{const r=await fetch('https://api.github.com/repos/'+CFG.repo+'/git/trees/'+br+'?recursive=1');if(r.ok){const j=await r.json();paths=j.tree.filter(t=>t.type==='blob'&&t.path.startsWith('designs/')).map(t=>t.path);try{sessionStorage.setItem('rw-tree',JSON.stringify({t:Date.now(),p:paths}));}catch(e){}}}catch(e){}}
   if(paths)urlFor=p=>'https://raw.githubusercontent.com/'+CFG.repo+'/'+br+'/'+enc(p);
-  else{try{const r=await fetch('designs/manifest.json',{cache:'no-store'});if(r.ok)paths=(await r.json()).files||[];}catch(e){}urlFor=p=>enc(p);}
+  else{const raw='https://raw.githubusercontent.com/'+CFG.repo+'/'+br+'/';for(const [src,mk] of [[raw+'designs/manifest.json',p=>raw+enc(p)],['designs/manifest.json',p=>enc(p)]]){try{const r=await fetch(src,{cache:'no-store'});if(r.ok){paths=(await r.json()).files||[];urlFor=mk;break;}}catch(e){}}}
   const all=new Set(paths||[]);uploads=(paths||[]).map(p=>fromPath(p,urlFor,all)).filter(Boolean).sort((a,b)=>(a.kind===b.kind?0:a.kind==='image'?-1:1)||a.title.localeCompare(b.title));}
 async function initData(){
   if(MODE==='github'){await loadGithub();dataReady=true;renderList();resolvePending();return;}
