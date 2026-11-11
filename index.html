@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%2387562a%22/%3E%3Cpath d=%22M7 25V12l9-6 9 6v13h-6v-7h-6v7z%22 fill=%22%23fff%22/%3E%3C/svg%3E">
+<title>Room Design Walkthroughs</title>
+<meta name="description" content="Walk through student common room and music studio designs in 3D, sit on the furniture and switch things on.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: an architect's model table. A quiet index of spaces on the left; the walkable model fills the rest, with every control gathered in one dock. */
+:root{
+  --bg:#f0eeea; --panel:#fbfaf8; --ink:#211f1c; --muted:#6b665f; --line:#dcd7cf; --soft:#ece8e1;
+  --accent:#87562a; --accent-ink:#ffffff; --stage:#e2ded7; --danger:#a8382b; --hud:rgba(251,250,248,.95);
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",ui-sans-serif,system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#161412;--panel:#1d1a17;--ink:#ece7e0;--muted:#a59e95;--line:#353029;--soft:#2a2520;--accent:#d49b62;--accent-ink:#1b130b;--stage:#1b1815;--danger:#e2715f;--hud:rgba(29,26,23,.95);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161412;--panel:#1d1a17;--ink:#ece7e0;--muted:#a59e95;--line:#353029;--soft:#2a2520;--accent:#d49b62;--accent-ink:#1b130b;--stage:#1b1815;--danger:#e2715f;--hud:rgba(29,26,23,.95);color-scheme:dark}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;overflow:hidden}
+button{font:inherit;color:inherit}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+[hidden]{display:none!important}
+.app{display:grid;grid-template-columns:296px minmax(0,1fr);height:100%}
+
+/* index */
+.side{display:flex;flex-direction:column;min-height:0;background:var(--panel);border-right:1px solid var(--line)}
+.side-head{padding-block:20px 14px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:20px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.side-head h1{font:700 1.3rem/1.15 var(--display);letter-spacing:-.01em;margin:0;text-wrap:balance}
+.side-head p{margin:6px 0 0;color:var(--muted);font-size:.86rem;line-height:1.45}
+.close-side{display:none;border:1px solid var(--line);background:transparent;border-radius:8px;padding:6px 10px;cursor:pointer}
+.list{flex:1;overflow:auto;padding-block:6px 16px;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:12px}
+.space{padding-block:12px 2px}
+.space h2{font:700 .72rem var(--body);text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:0 8px 2px;display:flex;justify-content:space-between;gap:8px}
+.space h2 span{font-family:var(--mono);letter-spacing:0;text-transform:none;font-weight:500}
+.space ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:2px}
+.row{position:relative}
+.item{display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;border:0;border-radius:10px;padding:8px;cursor:pointer}
+.item:hover{background:var(--soft)}
+.item[aria-current="true"]{background:var(--soft);box-shadow:inset 3px 0 0 var(--accent)}
+.thumb{width:44px;height:36px;border-radius:6px;border:1px solid var(--line);background:var(--stage);display:grid;place-items:center;overflow:hidden}
+.thumb svg{width:36px;height:28px}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.item b{display:block;font-weight:700;font-size:.92rem;line-height:1.25}
+.item small{display:block;color:var(--muted);font-size:.8rem;line-height:1.3;margin-top:1px;overflow-wrap:anywhere}
+.tag{font:500 .66rem var(--mono);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 7px;white-space:nowrap}
+.del{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:var(--panel);color:var(--muted);border-radius:6px;padding:5px 7px;cursor:pointer;opacity:0;font-size:.78rem}
+.row:hover .del,.del:focus-visible{opacity:1}
+.confirm{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px 10px 62px;font-size:.84rem}
+.confirm span{flex-basis:100%;color:var(--muted)}
+.side-foot{padding-block:12px calc(14px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:16px;border-top:1px solid var(--line);display:grid;gap:8px}
+.note{margin:0;color:var(--muted);font-size:.8rem;line-height:1.45}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:9px 14px;font-weight:700;font-size:.88rem;cursor:pointer;text-decoration:none;color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.danger{background:var(--danger);border-color:var(--danger);color:#fff}
+.btn.small{padding:5px 10px;font-size:.8rem}
+.btn:disabled{opacity:.55;cursor:default}
+
+/* viewer */
+.viewer{position:relative;min-width:0;min-height:0;background:var(--stage);overflow:hidden}
+#c{display:block;width:100%;height:100%;touch-action:none;outline:none;cursor:grab}
+.walking #c{cursor:crosshair}
+.viewer.pointing #c{cursor:pointer}
+.hud{position:absolute;background:var(--hud);border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.08);backdrop-filter:blur(6px)}
+.titlebar{top:calc(12px + env(safe-area-inset-top,0px));left:12px;display:flex;align-items:center;gap:10px;padding:8px 12px;max-width:min(560px,calc(100% - 220px))}
+.titlebar h2{font:700 1rem/1.2 var(--display);margin:0;text-wrap:balance}
+.titlebar p{margin:2px 0 0;font:500 .72rem var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.menu{display:none;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 10px;font-weight:700;font-size:.82rem;cursor:pointer}
+.minimap{top:calc(12px + env(safe-area-inset-top,0px));right:max(12px,env(safe-area-inset-right,0px));padding:8px;display:grid;gap:4px}
+.minimap canvas{display:block;border-radius:6px;cursor:pointer;touch-action:none}
+.minimap small{font-size:.7rem;color:var(--muted);text-align:center}
+
+.dock{left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:5px;max-width:calc(100% - 24px)}
+.dock button{display:inline-flex;align-items:center;gap:6px;border:0;background:transparent;color:var(--ink);font-weight:700;font-size:.82rem;padding:8px 11px;border-radius:9px;cursor:pointer;white-space:nowrap}
+.dock button:hover{background:var(--soft)}
+.dock button[aria-pressed="true"]{background:var(--ink);color:var(--panel)}
+.dock button[aria-expanded="true"]{background:var(--soft)}
+.dock svg{width:17px;height:17px;flex:none}
+.dock .sep{width:1px;align-self:stretch;margin:4px 3px;background:var(--line)}
+.pop{left:50%;transform:translateX(-50%);bottom:calc(72px + env(safe-area-inset-bottom,0px));padding:10px 10px 8px;width:min(300px,calc(100% - 24px))}
+.pop h3{font:700 .68rem var(--body);text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:0 4px 6px}
+.pop ul{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.pop li button{display:flex;align-items:center;gap:9px;width:100%;border:0;background:transparent;font-size:.86rem;padding:6px 4px;border-radius:6px;cursor:pointer;text-align:left}
+.pop li button:hover{background:var(--soft)}
+.sw{width:13px;height:13px;border-radius:3px;flex:none}
+.pop .area{margin-left:auto;font:500 .7rem var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.prompt{left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);padding:8px 14px;font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:8px;pointer-events:none;white-space:nowrap}
+kbd{font:500 .74rem var(--mono);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;background:var(--panel);color:var(--ink)}
+.help{left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);padding:16px 18px 14px;width:min(430px,calc(100% - 24px));display:grid;gap:10px}
+.help h3{font:700 1rem var(--display);margin:0}
+.help ul{margin:0;padding:0;list-style:none;display:grid;gap:7px;font-size:.88rem;line-height:1.4}
+.help li{display:grid;grid-template-columns:118px 1fr;gap:10px;align-items:baseline}
+.help li span:first-child{display:flex;flex-wrap:wrap;gap:3px}
+.help .btn{justify-self:end}
+.lockhint{left:50%;top:36%;transform:translate(-50%,-50%);padding:12px 16px;font-weight:700;pointer-events:none;text-align:center}
+.lockhint small{display:block;font-weight:400;color:var(--muted);margin-top:3px}
+.cross{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.4);pointer-events:none;transition:transform .12s}
+.cross.on{transform:scale(1.7);background:rgba(255,255,255,.35)}
+.joy{position:absolute;left:max(20px,env(safe-area-inset-left,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));width:116px;height:116px;border-radius:50%;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.75);touch-action:none;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.joy i{position:absolute;left:50%;top:50%;width:50px;height:50px;margin:-25px 0 0 -25px;border-radius:50%;background:rgba(255,255,255,.95);box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.act{position:absolute;right:max(20px,env(safe-area-inset-right,0px));bottom:calc(96px + env(safe-area-inset-bottom,0px));min-width:96px;min-height:56px;border-radius:28px;border:0;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:.9rem;padding:0 18px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.lbl{position:absolute;left:0;top:0;pointer-events:none;font:700 .76rem var(--body);color:#211f1c;background:rgba(255,255,255,.93);padding:4px 8px;border-radius:5px;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.18);transform:translate(-50%,-50%);text-align:center}
+.lbl small{display:block;font:500 .64rem var(--mono);color:#6b665f}
+.dim{position:absolute;left:0;top:0;pointer-events:none;font:700 .78rem var(--mono);font-variant-numeric:tabular-nums;color:#fff;background:#2a2622;padding:3px 8px;border-radius:4px;white-space:nowrap;transform:translate(-50%,-50%)}
+.labels-off .lbl,.labels-off .dim{display:none}
+.loading{position:absolute;inset:0;display:grid;place-items:center;background:var(--stage);color:var(--muted);font-size:.92rem;z-index:5}
+.loading span{display:flex;align-items:center;gap:10px}
+.loading span::before{content:"";width:16px;height:16px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--accent);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;left:calc(50% + 148px);bottom:calc(130px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--panel);padding:10px 16px;border-radius:9px;font-size:.88rem;z-index:40;max-width:min(90vw,520px);text-align:center}
+
+/* dialogs */
+.modal{position:fixed;inset:0;z-index:30;display:grid;place-items:center;background:rgba(18,16,14,.55);padding-block:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:14px;width:min(580px,100%);max-height:100%;overflow:auto;box-shadow:0 18px 50px rgba(0,0,0,.25)}
+.sheet header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:18px 20px 6px}
+.sheet h2{font:700 1.2rem/1.2 var(--display);margin:0;text-wrap:balance}
+.sheet .sub{margin:4px 0 0;color:var(--muted);font-size:.85rem;line-height:1.45}
+.x{border:1px solid var(--line);background:transparent;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:.85rem}
+form{display:grid;gap:14px;padding:12px 20px 20px}
+label{display:grid;gap:5px;font-weight:700;font-size:.84rem}
+label span{font-weight:400;color:var(--muted);font-size:.8rem}
+input[type=text],select,textarea{font:inherit;font-size:.92rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%;box-sizing:border-box}
+textarea{min-height:64px;resize:vertical}
+.drop{position:relative;display:grid;place-items:center;gap:4px;border:1.5px dashed var(--line);border-radius:10px;padding:18px;text-align:center;cursor:pointer;background:var(--bg)}
+.drop.over{border-color:var(--accent)}
+.drop b{font-size:.92rem}
+.drop small{color:var(--muted);font-size:.8rem;font-weight:400}
+.drop input{position:absolute;width:1px;height:1px;opacity:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.actions{display:flex;justify-content:flex-end;gap:8px;align-items:center;flex-wrap:wrap}
+.status{margin-right:auto;font-size:.84rem;color:var(--muted)}
+.status.err{color:var(--danger)}
+.publish{border-top:1px solid var(--line);padding-top:14px;display:grid;gap:10px}
+.publish h3{font:700 .95rem var(--display);margin:0}
+.publish ol{margin:0;padding-left:20px;display:grid;gap:6px;font-size:.88rem;line-height:1.45;color:var(--ink)}
+.publish code{font:500 .8rem var(--mono);background:var(--soft);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+.board{width:min(1100px,100%)}
+.board figure{margin:0;padding:6px 20px 20px;display:grid;gap:10px}
+.board img{display:block;width:100%;height:auto;max-height:70vh;object-fit:contain;border-radius:8px;background:var(--stage)}
+.board figcaption{color:var(--muted);font-size:.88rem;line-height:1.5;white-space:pre-wrap}
+
+@media (max-width:1180px){.dock .txt{display:none}.dock .seg .txt{display:inline}}
+@media (max-width:760px){
+  .toast{left:50%;bottom:calc(214px + env(safe-area-inset-bottom,0px))}
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:fixed;inset:0;z-index:20;transform:translateX(-102%);transition:transform .22s ease;border-right:0}
+  .side.open{transform:none}
+  .close-side,.menu{display:inline-block}
+  .titlebar{max-width:calc(100% - 24px);right:12px}
+  .walking .titlebar{right:auto;max-width:calc(100% - 210px)}
+  .walking .titlebar p{display:none}
+  .dock .txt{display:none}
+  .dock .seg .txt{display:inline}
+  .dock button{padding:9px 9px}
+  .two{grid-template-columns:1fr}
+  .help li{grid-template-columns:1fr}
+}
+@media (max-width:430px){.dock .seg .txt{display:none}.dock button{padding:9px 8px}}
+@media (prefers-reduced-motion: reduce){.side{transition:none}.loading span::before{animation:none}.cross{transition:none}}
+</style>
+</head>
+<body>
+
+
+<div class="app" id="app">
+  <aside class="side" id="side" aria-label="Designs">
+    <div class="side-head">
+      <div>
+        <h1>Room Design Walkthroughs</h1>
+        <p>Pick a design, then choose Walk to go inside. Sit on the furniture and switch things on.</p>
+      </div>
+      <button class="close-side" id="close-side" aria-label="Close the design list">Close</button>
+    </div>
+    <nav class="list" id="list" aria-label="Spaces and designs"></nav>
+    <div class="side-foot">
+      <button class="btn primary" id="btn-add">Add a design</button>
+      <p class="note" id="foot-note">3D models (.glb) become rooms you can walk through. Images become design boards.</p>
+    </div>
+  </aside>
+
+  <main class="viewer" id="stage">
+    <canvas id="c" tabindex="0" aria-label="3D view of the selected design"></canvas>
+    <div class="hud titlebar">
+      <button class="menu" id="btn-menu">Designs</button>
+      <div><h2 id="now-title">Loading</h2><p id="now-sub"></p></div>
+    </div>
+    <div class="hud minimap" id="minimap" hidden><canvas id="mm" aria-label="Map of the room. Click a spot to move there."></canvas><small>Click the map to move there</small></div>
+    <div class="hud pop" id="zones-pop" hidden><h3>Zones</h3><ul id="zones"></ul></div>
+    <div class="hud help" id="help" hidden role="dialog" aria-labelledby="help-h">
+      <h3 id="help-h">Walking around</h3>
+      <ul id="help-list"></ul>
+      <button class="btn small" id="help-ok">Got it</button>
+    </div>
+    <div class="hud prompt" id="prompt" hidden></div>
+    <div class="hud lockhint" id="lockhint" hidden>Click to look around<small>Move the mouse to look. Press Esc to get your cursor back.</small></div>
+    <div class="cross" id="cross" hidden></div>
+    <div class="joy" id="joy" hidden aria-hidden="true"><i id="knob"></i></div>
+    <button class="act" id="act" hidden></button>
+    <div class="hud dock" id="dock">
+      <div class="seg" role="group" aria-label="View" style="display:flex;gap:3px">
+        <button id="m-walk" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4" r="2"/><path d="M9 21l2-6 3 3v4M7 12l3-4 4 1 3 3M11 15l-1-5"/></svg><span class="txt">Walk</span></button>
+        <button id="m-overview" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg><span class="txt">Overview</span></button>
+        <button id="m-plan" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 12h9v9M12 3v5"/></svg><span class="txt">Plan</span></button>
+      </div>
+      <span class="sep"></span>
+      <button id="b-eve" title="Evening lighting" aria-pressed="false" aria-label="Evening lighting"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg><span class="txt">Evening</span></button>
+      <button id="b-zones" title="Zones" aria-expanded="false" aria-controls="zones-pop" aria-label="Zones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="5"/><rect x="13" y="10" width="8" height="11"/><rect x="3" y="13" width="8" height="8"/></svg><span class="txt">Zones</span></button>
+      <button id="b-labels" title="Labels and dimensions" aria-pressed="true" aria-label="Labels and dimensions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7h18M3 7v4M21 7v4M7 15h10"/></svg><span class="txt">Labels</span></button>
+      <button id="b-help" title="How to walk around" aria-label="How to walk around"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 114 2c-1 .7-1.5 1.2-1.5 2.5M12 17h.01"/></svg><span class="txt">Help</span></button>
+      <button id="b-full" title="Full screen" aria-label="Full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    </div>
+    <div class="loading" id="loading"><span id="loading-text">Building the room</span></div>
+  </main>
+</div>
+
+<div class="modal" id="board" hidden>
+  <div class="sheet board" role="dialog" aria-modal="true" aria-labelledby="board-title">
+    <header><div><h2 id="board-title"></h2><p class="sub" id="board-space"></p></div><button class="x" id="board-close">Close</button></header>
+    <figure><img id="board-img" alt=""><figcaption id="board-notes"></figcaption></figure>
+  </div>
+</div>
+
+<div class="modal" id="upload" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="up-h">
+    <header><div><h2 id="up-h">Add a design</h2><p class="sub" id="up-sub"></p></div><button class="x" id="up-close">Close</button></header>
+    <form id="up-form" novalidate>
+      <label class="drop" id="drop" for="up-file">
+        <b id="drop-name">Choose a file or drop it here</b>
+        <small>3D model: .glb (or a single-file .gltf). Image: PNG, JPG or WebP.</small>
+        <input type="file" id="up-file" accept=".glb,.gltf,image/png,image/jpeg,image/webp">
+      </label>
+      <label for="up-title">Design name<input type="text" id="up-title" maxlength="80" placeholder="Design 4, quiet study corner"></label>
+      <div class="two">
+        <label for="up-space">Space<select id="up-space"></select></label>
+        <label for="up-units" id="units-wrap">Model units<select id="up-units"><option value="m">Metres</option><option value="cm">Centimetres</option><option value="mm">Millimetres</option><option value="in">Inches</option><option value="ft">Feet</option></select></label>
+      </div>
+      <label for="up-newspace" id="newspace-wrap" hidden>Name of the new space<input type="text" id="up-newspace" maxlength="60" placeholder="Science lab"></label>
+      <label for="up-notes">Notes <span>Optional. Shown with the design.</span><textarea id="up-notes" maxlength="600"></textarea></label>
+      <div class="actions"><p class="status" id="up-status" role="status"></p><button class="btn" id="up-preview" type="button">Preview here</button><button class="btn primary" id="up-go" type="submit">Add design</button></div>
+      <section class="publish" id="publish" hidden>
+        <h3>Publish it for everyone</h3>
+        <ol>
+          <li>Download the file with its website name: <button class="btn small" type="button" id="dl-files">Download ready-to-upload files</button></li>
+          <li>Open the upload page for this space and drop the files in: <a class="btn small" id="gh-link" href="#" target="_blank" rel="noopener">Open GitHub upload page</a></li>
+          <li>Press <b>Commit changes</b>. The design shows up on the site for everyone after a refresh.</li>
+        </ol>
+        <p class="note">Files go in <code id="gh-folder">designs/</code>. Only people who can edit the GitHub repository can publish.</p>
+      </section>
+    </form>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="config.js"></script>
+<script src="vendor/three.min.js"></script>
+<script src="vendor/OrbitControls.js"></script>
+<script src="vendor/GLTFLoader.js"></script>
+<script src="rooms.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
