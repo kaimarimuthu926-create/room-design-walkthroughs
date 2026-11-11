@@ -397,7 +397,7 @@ function buildEnv(o){
       const m=new THREE.MeshStandardMaterial({color:cols[i%4],map:bt.clone(),roughness:.9});m.map.needsUpdate=true;m.map.repeat.set(bw/8,bh/8);
       const b=add(new THREE.BoxGeometry(bw,bh,bd),m,cx+Math.cos(a)*r,bh/2,cz+Math.sin(a)*r,scene,false);b.rotation.y=-a+Math.PI/2;b.userData.noCollide=true;}}
   const postHeads=[];const headMat=std({color:'#fff4d6',emissive:'#ffcf7a',emissiveIntensity:.1});
-  for(let i=0;i<4;i++){const d=4+i*7.5,px=o.door.x+dx*d+(dz?1.7:0),pz=o.door.z+dz*d+(dx?1.7:0);const g=grp(px,pz);g.userData.noCollide=true;
+  for(let i=0;i<4;i++){const d=9+i*7.5,px=o.door.x+dx*d+(dz?1.8:0),pz=o.door.z+dz*d+(dx?1.8:0);const g=grp(px,pz);g.userData.noCollide=true;
     cy(.05,.07,3.2,M.metal('#2b2d30'),0,1.6,0,g,10);sp(.16,headMat,0,3.3,0,g);cy(.2,.2,.04,M.metal('#2b2d30'),0,3.44,0,g,16);}
   /* ceiling + roof */
   const roof=new THREE.Group();roof.userData.roof=true;scene.add(roof);
@@ -996,7 +996,7 @@ function buildEnv(o){
       const m=new THREE.MeshStandardMaterial({color:cols[i%4],map:bt.clone(),roughness:.9});m.map.needsUpdate=true;m.map.repeat.set(bw/8,bh/8);
       const b=add(new THREE.BoxGeometry(bw,bh,bd),m,cx+Math.cos(a)*r,bh/2,cz+Math.sin(a)*r,scene,false);b.rotation.y=-a+Math.PI/2;b.userData.noCollide=true;}}
   const postHeads=[];const headMat=std({color:'#fff4d6',emissive:'#ffcf7a',emissiveIntensity:.1});
-  for(let i=0;i<4;i++){const d=4+i*7.5,px=o.door.x+dx*d+(dz?1.7:0),pz=o.door.z+dz*d+(dx?1.7:0);const g=grp(px,pz);g.userData.noCollide=true;
+  for(let i=0;i<4;i++){const d=9+i*7.5,px=o.door.x+dx*d+(dz?1.8:0),pz=o.door.z+dz*d+(dx?1.8:0);const g=grp(px,pz);g.userData.noCollide=true;
     cy(.05,.07,3.2,M.metal('#2b2d30'),0,1.6,0,g,10);sp(.16,headMat,0,3.3,0,g);cy(.2,.2,.04,M.metal('#2b2d30'),0,3.44,0,g,16);}
   /* ceiling + roof */
   const roof=new THREE.Group();roof.userData.roof=true;scene.add(roof);
